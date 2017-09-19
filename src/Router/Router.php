@@ -18,6 +18,20 @@ class Router
         return $this->addRule($query, $action, 'post');
     }
 
+    public function put(string $query, string $action): bool
+    {
+        return $this->addRule($query, $action,'put');
+    }
+
+    public function delete(string $query, string $action)
+    {
+        return $this->addRule($query,$action,'delete');
+    }
+
+    public function update(string $query, string $action)
+    {
+        return $this->addRule($query, $action, 'update');
+    }
     public function find(string $query, string $method = 'get')
     {
         if(strlen($query)!=1) {
