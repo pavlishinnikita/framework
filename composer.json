@@ -1,0 +1,6 @@
+{
+    "name": "pavlishinnikita/framework",
+    "require": {
+        "cakephp/collection": "^3.5"
+    }
+}
