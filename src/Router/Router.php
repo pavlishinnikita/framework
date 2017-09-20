@@ -6,7 +6,20 @@ use Cake\Collection\Collection;
 
 class Router
 {
+    private static $instance;
     private $rules = [];
+
+    public static function getInstance()
+    {
+        if (self::$instance==null) {
+            self::$instance = new Router();
+        }
+        return self::$instance;
+    }
+
+    private function __construct() { }
+
+    private function __clone() { }
 
     public function get(string $query, string $action): bool
     {
@@ -28,10 +41,6 @@ class Router
         return $this->addRule($query,$action,'delete');
     }
 
-    public function update(string $query, string $action)
-    {
-        return $this->addRule($query, $action, 'update');
-    }
     public function find(string $query, string $method = 'get')
     {
         if(strlen($query)!=1) {
