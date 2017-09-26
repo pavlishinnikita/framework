@@ -64,7 +64,6 @@ class Router
         })->toArray();
 
         array_unshift($matches, implode('@', [ $rule['controller'], $rule['action'] ]));
-
         return $matches;
     }
 
