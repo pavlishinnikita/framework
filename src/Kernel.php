@@ -19,17 +19,15 @@ class Kernel
         $path = $request->path;
         $router = Router::getInstance();
         $matches = $router->find($path);
-        $controller = explode('@',$matches[0])[0];
-        $action = explode('@',$matches[0])[1];
-        $params = $matches[1];
+        $controllerAndAction = explode('@', $matches[0]);
+        $controller = $controllerAndAction[0];
+        $action = $controllerAndAction[1];
+
         // call controller and action
         $controller = $this->prefix.$controller;
         $object = new $controller();
-
-        if($params==null)
-            $object->$action();
-        else
-            $object->$action($params);
+        $arguments = array_slice($matches,1,count($matches));
+        call_user_func_array(array($object,$action),$arguments);
 
     }
 
