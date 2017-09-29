@@ -28,7 +28,7 @@ class Request implements RequestInterface
         $this->data['post'] = $_POST;
         $this->data['server'] = $_SERVER;
 
-        $this->path = $_SERVER['PATH_INFO'];
+        $this->path = $_SERVER['PATH_INFO'] ?? '/';
     }
 
     public static function createRequest()

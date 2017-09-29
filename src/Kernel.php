@@ -26,7 +26,7 @@ class Kernel
         // call controller and action
         $controller = $this->prefix.$controller;
         $object = new $controller();
-        $arguments = array_slice($matches,1,count($matches));
+        $arguments = array_slice($matches,1);
         call_user_func_array(array($object,$action),$arguments);
 
     }
