@@ -41,6 +41,12 @@ class Router
         return $this->addRule($query,$action,'delete');
     }
 
+    /**
+     * @param string $query
+     * @param string $method
+     * @return array|Collection|\Cake\Collection\CollectionTrait or ErrorController@routeError is not found address,
+     * create this controller and action
+     */
     public function find(string $query, string $method = 'get')
     {
         if(strlen($query)!=1) {
@@ -62,7 +68,6 @@ class Router
         $matches = $matches->map(function ($item, $key) {
             return array_values($item)[0] ?? null;
         })->toArray();
-
         array_unshift($matches, implode('@', [ $rule['controller'], $rule['action'] ]));
         return $matches;
     }

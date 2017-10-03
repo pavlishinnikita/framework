@@ -12,8 +12,22 @@ require_once 'vendor/autoload.php';
 
 class Kernel
 {
+    private static $instance;
 
     private $prefix = 'App\\Controllers\\';
+
+    private function __construct() {}
+
+    private function __clone() {}
+
+    public static function getInstance()
+    {
+        if(Kernel::$instance == null) {
+            Kernel::$instance = new Kernel();
+        }
+        return Kernel::$instance;
+    }
+
     public function handle(Request $request)
     {
         $path = $request->path;
@@ -23,7 +37,6 @@ class Kernel
         $controller = $controllerAndAction[0];
         $action = $controllerAndAction[1];
 
-        // call controller and action
         $controller = $this->prefix.$controller;
         $object = new $controller();
         $arguments = array_slice($matches,1);
