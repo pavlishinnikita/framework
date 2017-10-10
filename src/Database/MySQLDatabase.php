@@ -28,6 +28,8 @@ class MySQLDatabase implements DatabaseInterface
     private $query;
 
     /**
+     *
+     *
      * @var mixed[]
      */
     private $whereRules = [];
@@ -64,7 +66,7 @@ class MySQLDatabase implements DatabaseInterface
      */
     public function get(array $fields): DatabaseInterface
     {
-        $str_field = implode(',',$fields);
+        $str_field = implode(',', $fields);
         $this->query = "SELECT $str_field ";
         return $this;
     }
@@ -77,7 +79,7 @@ class MySQLDatabase implements DatabaseInterface
      */
     public function where(string $column, string $valueVariable, string $operator): DatabaseInterface
     {
-        array_push($this->whereRules, [ $column, ':' . $valueVariable, $operator ]);
+        array_push($this->whereRules, [$column, ':' . $valueVariable, $operator]);
         return $this;
     }
 
@@ -118,7 +120,7 @@ class MySQLDatabase implements DatabaseInterface
             })
             ->toArray();
         $rules = implode(' AND ', $rules);
-        $this->query.="FROM ".$this->table;
+        $this->query .= "FROM " . $this->table;
         if (strlen($rules) > 0) {
             $this->query .= ' WHERE ' . $rules;
         }
@@ -127,13 +129,27 @@ class MySQLDatabase implements DatabaseInterface
         if ($stmt) {
             $stmt->execute();
             $result = $stmt->get_result();
-            while ($data = $result->fetch_assoc())
-            {
+            while ($data = $result->fetch_assoc()) {
                 $results[] = $data;
             }
             $stmt->close();
         }
+
         return $results;
+    }
+    public function preExecute()
+    {
+        $rules = \collection($this->whereRules)
+            ->map(function ($rule) {
+                return "{$rule[0]} {$rule[2]} {$rule[1]}";
+            })
+            ->toArray();
+        $rules = implode(' AND ', $rules);
+        $this->query .= "FROM " . $this->table;
+        if (strlen($rules) > 0) {
+            $this->query .= ' WHERE ' . $rules;
+        }
+        return $this->query;
     }
 
 }
