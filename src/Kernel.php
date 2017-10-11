@@ -8,7 +8,6 @@
 namespace Framework;
 
 use Framework\Router\Router;
-
 /**
  * Class Kernel класс для обработки запросов, ядро приложения
  * @package Framework
@@ -20,6 +19,11 @@ class Kernel
      * @var Kernel
      */
     private static $instance;
+
+    /**
+     * @var \Callable[]
+     */
+    private $services;
 
     /**
      * Путь к пользовательским контроллерам
@@ -71,7 +75,31 @@ class Kernel
         $object = new $controller();
         $arguments = array_slice($matches, 1);
         call_user_func_array([$object, $action], $arguments);
+    }
 
+    /**
+     * @param string $target
+     * @param \Closure|mixed $realization
+     * @return Kernel
+     */
+    public function register(string $target, $realization) {
+        $this->services[$target] = $realization;
+        return $this;
+    }
+
+    /**
+     * @param string $service
+     * @return mixed
+     */
+    public function make(string $service) {
+        if (is_callable($this->services[$service])) {
+            $callable = $this->services[$service];
+            $createdService = call_user_func($callable);
+
+            return $createdService;
+        }
+
+        return $this->services[$service];
     }
 
 }
