@@ -70,7 +70,7 @@ class Kernel
         $controller = $this->prefixControllers . $controller;
         $object = new $controller();
         $arguments = array_slice($matches, 1);
-        call_user_func_array(array($object, $action), $arguments);
+        call_user_func_array([$object, $action], $arguments);
 
     }
 

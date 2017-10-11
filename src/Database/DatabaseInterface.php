@@ -96,5 +96,6 @@ interface DatabaseInterface
      */
     public function execute();
 
+    public function preExecute();
 
 }
