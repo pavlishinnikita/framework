@@ -9,7 +9,15 @@
 namespace Framework\Database;
 
 
-class QueryInterface
+interface QueryInterface
 {
+
+    /**
+     * @param DatabaseInterface $database
+     * @return mixed
+     */
+    public function setDatabase(DatabaseInterface $database);
+
+    public function createQueryBuilder();
 
 }

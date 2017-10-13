@@ -9,7 +9,33 @@
 namespace Framework\Database;
 
 
-class DoctrineQuery
+use Doctrine\DBAL\Connection;
+
+class DoctrineQuery implements QueryInterface
 {
+
+    /**
+     * @var DatabaseInterface
+     */
+    private $database;
+
+    /**
+     * @param DatabaseInterface $database
+     * @return mixed
+     */
+    public function setDatabase(DatabaseInterface $database)
+    {
+        $this->database = $database;
+    }
+
+    /**
+     * @return \Doctrine\DBAL\Query\QueryBuilder
+     */
+    public function createQueryBuilder()
+    {
+        /** @var Connection $connection */
+        $connection = $this->database->getConnection();
+        return $connection->createQueryBuilder();
+    }
 
 }
