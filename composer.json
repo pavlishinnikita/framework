@@ -1,7 +1,9 @@
 {
   "name": "pavlishinnikita/framework",
   "require": {
-    "cakephp/collection": "^3.5"
+    "cakephp/collection": "^3.5",
+    "doctrine/orm": "2.4.*",
+    "symfony/yaml": "2.*"
   },
   "autoload": {
     "psr-4": {
