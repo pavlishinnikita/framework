@@ -12,6 +12,12 @@ namespace Framework\Database;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 
+/**
+ * Class MySQLDatabase
+ * @package Framework\Database
+ *
+ * Класс для работы с MySQL базой данных
+ */
 class MySQLDatabase implements DatabaseInterface
 {
 
@@ -20,19 +26,19 @@ class MySQLDatabase implements DatabaseInterface
      */
     private $connection;
 
-
     /**
-     * @param string $connectionString
-     * @param string $username
-     * @param string $password
+     * @param string $connectionString - строка соединения в формате jdbc
+     * @param string $username - имя пользователя
+     * @param string $password - пароль
      * @return DatabaseInterface
+     *
+     *
      */
     public function connect(string $connectionString, string $username, string $password): DatabaseInterface
     {
-        $regex = "@([A-z]+:\/\/)([A-z0-9\.]+):([0-9]+)\/([A-z0-9]+)@";
+        $regex = "#([A-z]+:\/\/)([A-z0-9\.]+):([0-9]+)\/([A-z0-9]+)#";
         preg_match_all($regex, $connectionString, $matches);
         array_shift($matches);
-
         $config = new Configuration();
 
         $connectionParams = array(
@@ -48,12 +54,18 @@ class MySQLDatabase implements DatabaseInterface
         return $this;
     }
 
+    /**
+     * @return DriverManager
+     *  Позволяет получить экземляр соединения с базой данных
+     */
     public function getConnection()
     {
         return $this->connection;
     }
 
     /**
+     * Создает построитель запросов
+     *
      * @return QueryInterface
      */
     public function createQuery(): QueryInterface

@@ -26,8 +26,16 @@ interface DatabaseInterface
      */
     public function connect(string $connectionString, string $username, string $password): DatabaseInterface;
 
+    /**
+     * @return mixed
+     *
+     */
     public function getConnection();
 
+    /**
+     * @return QueryInterface
+     *
+     */
     public function createQuery(): QueryInterface;
 
 }

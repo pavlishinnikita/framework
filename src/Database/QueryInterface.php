@@ -9,6 +9,8 @@
 namespace Framework\Database;
 
 
+use Doctrine\DBAL\Query\QueryBuilder;
+
 interface QueryInterface
 {
 
@@ -18,6 +20,6 @@ interface QueryInterface
      */
     public function setDatabase(DatabaseInterface $database);
 
-    public function createQueryBuilder();
+    public function createQueryBuilder() : QueryBuilder;
 
 }

@@ -10,6 +10,7 @@ namespace Framework\Database;
 
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Query\QueryBuilder;
 
 class DoctrineQuery implements QueryInterface
 {
@@ -31,7 +32,7 @@ class DoctrineQuery implements QueryInterface
     /**
      * @return \Doctrine\DBAL\Query\QueryBuilder
      */
-    public function createQueryBuilder()
+    public function createQueryBuilder(): QueryBuilder
     {
         /** @var Connection $connection */
         $connection = $this->database->getConnection();
