@@ -14,6 +14,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 /**
  * Интерфейс для всех запросов
  * Interface QueryInterface
+ *
  * @package Framework\Database
  */
 interface QueryInterface
@@ -23,12 +24,12 @@ interface QueryInterface
      * Устанавливает базу данных для дальнейшей работы с ней
      *
      * @param DatabaseInterface $database
-     * @return mixed
      */
     public function setDatabase(DatabaseInterface $database);
 
     /**
      * Создает построитель запросов
+     *
      * @return QueryBuilder
      */
     public function createQueryBuilder() : QueryBuilder;

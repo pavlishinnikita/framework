@@ -27,14 +27,16 @@ interface DatabaseInterface
     public function connect(string $connectionString, string $username, string $password): DatabaseInterface;
 
     /**
-     * @return mixed
+     * Возвращает соединение с базой данных
      *
+     * @return mixed
      */
     public function getConnection();
 
     /**
-     * @return QueryInterface
+     * Создает объект для работы с базой данных, для работы с запросами
      *
+     * @return QueryInterface
      */
     public function createQuery(): QueryInterface;
 

@@ -21,13 +21,16 @@ class DoctrineQuery implements QueryInterface
 {
 
     /**
+     * Экземпляр интерфейса базы данных для работы с базой данных
+     *
      * @var DatabaseInterface
      */
     private $database;
 
     /**
+     * Устанавливает базу данных для дальнейшей работы с ней
+     *
      * @param DatabaseInterface $database
-     * @return mixed
      */
     public function setDatabase(DatabaseInterface $database)
     {
@@ -36,6 +39,7 @@ class DoctrineQuery implements QueryInterface
 
     /**
      * Возвращает Doctrine 2 QueryBuilder, содержащий все необходимые средства работы с базой данных
+     *
      * @return \Doctrine\DBAL\Query\QueryBuilder
      */
     public function createQueryBuilder(): QueryBuilder

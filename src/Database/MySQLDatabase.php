@@ -41,13 +41,13 @@ class MySQLDatabase implements DatabaseInterface
         preg_match_all($regex, $connectionString, $matches);
         array_shift($matches);
         $config = new Configuration();
-        $connectionParams = array(
+        $connectionParams = [
             'dbname' => $matches[3][0],
             'user' => $username,
             'password' => $password,
             'host' => $matches[1][0],
             'driver' => 'pdo_mysql',
-        );
+        ];
         $this->connection = DriverManager::getConnection($connectionParams, $config);
         return $this;
     }
