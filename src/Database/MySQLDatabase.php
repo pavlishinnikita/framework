@@ -27,11 +27,12 @@ class MySQLDatabase implements DatabaseInterface
     private $connection;
 
     /**
-     * @param string $connectionString - строка соединения в формате jdbc
+     * Метод для соединения с базой данных
+     *
+     * @param string $connectionString - строка соединения в формате JDBC Example: "mysql://host:port/db_name
      * @param string $username - имя пользователя
      * @param string $password - пароль
      * @return DatabaseInterface
-     *
      *
      */
     public function connect(string $connectionString, string $username, string $password): DatabaseInterface
@@ -40,7 +41,6 @@ class MySQLDatabase implements DatabaseInterface
         preg_match_all($regex, $connectionString, $matches);
         array_shift($matches);
         $config = new Configuration();
-
         $connectionParams = array(
             'dbname' => $matches[3][0],
             'user' => $username,
@@ -48,15 +48,14 @@ class MySQLDatabase implements DatabaseInterface
             'host' => $matches[1][0],
             'driver' => 'pdo_mysql',
         );
-
         $this->connection = DriverManager::getConnection($connectionParams, $config);
-
         return $this;
     }
 
     /**
+     * Позволяет получить экземляр соединения с базой данных
+     *
      * @return DriverManager
-     *  Позволяет получить экземляр соединения с базой данных
      */
     public function getConnection()
     {

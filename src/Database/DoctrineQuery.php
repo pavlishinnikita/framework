@@ -12,6 +12,11 @@ namespace Framework\Database;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 
+/**
+ * Класс для работы с базой данных посредством Doctrine 2
+ * Class DoctrineQuery
+ * @package Framework\Database
+ */
 class DoctrineQuery implements QueryInterface
 {
 
@@ -30,6 +35,7 @@ class DoctrineQuery implements QueryInterface
     }
 
     /**
+     * Возвращает Doctrine 2 QueryBuilder, содержащий все необходимые средства работы с базой данных
      * @return \Doctrine\DBAL\Query\QueryBuilder
      */
     public function createQueryBuilder(): QueryBuilder
