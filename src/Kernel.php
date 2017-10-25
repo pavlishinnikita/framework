@@ -8,6 +8,8 @@
 namespace Framework;
 
 use Framework\Router\Router;
+use PHPUnit\Runner\Exception;
+
 /**
  * Class Kernel класс для обработки запросов, ядро приложения
  * @package Framework
@@ -72,9 +74,31 @@ class Kernel
         $controller = $controllerAndAction[0];
         $action = $controllerAndAction[1];
         $controller = $this->prefixControllers . $controller;
-        $object = new $controller();
-        $arguments = array_slice($matches, 1);
-        call_user_func_array([$object, $action], $arguments);
+        $objectController = new $controller();
+//        $arguments = array_slice($matches, 1);
+        $arguments = [];
+        $rc = new \ReflectionClass($objectController);
+        if($rc->hasMethod($action)){
+            $rm = $rc->getMethod($action);
+            $params = $rm->getParameters();
+            foreach ($params as $p) {
+                /** ReflectionParameter $p */
+                $paramClass = $p->getClass();
+                if(!is_null($paramClass)) {
+                    $test = $this->make($paramClass->getName());
+                    array_push($arguments, $test);
+                }
+
+            }
+        }
+        else {
+            throw new Exception("Not member this method");
+        }
+//        array_push($arguments, array_slice($matches, 1));
+        $arguments += array_slice($matches, 1);
+        var_dump($arguments);
+//        call_user_func_array([$objectController, $action], $arguments);
+
     }
 
     /**
@@ -92,14 +116,15 @@ class Kernel
      * @return mixed
      */
     public function make(string $service) {
+        if (!array_key_exists($service, $this->services)) {
+            return new $service;
+        }
+
         if (is_callable($this->services[$service])) {
             $callable = $this->services[$service];
             $createdService = call_user_func($callable);
-
             return $createdService;
         }
-
         return $this->services[$service];
     }
-
 }
