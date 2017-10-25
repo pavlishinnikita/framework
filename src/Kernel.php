@@ -96,7 +96,6 @@ class Kernel
         }
 //        array_push($arguments, array_slice($matches, 1));
         $arguments += array_slice($matches, 1);
-        var_dump($arguments);
 //        call_user_func_array([$objectController, $action], $arguments);
 
     }
