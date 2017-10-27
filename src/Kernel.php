@@ -7,6 +7,7 @@
  */
 namespace Framework;
 
+use App\Services\MathService;
 use Framework\Router\Router;
 use PHPUnit\Runner\Exception;
 
@@ -75,7 +76,7 @@ class Kernel
         $action = $controllerAndAction[1];
         $controller = $this->prefixControllers . $controller;
         $objectController = new $controller();
-//        $arguments = array_slice($matches, 1);
+        $simpleArgs = array_slice($matches, 1);
         $arguments = [];
         $rc = new \ReflectionClass($objectController);
         if($rc->hasMethod($action)){
@@ -87,6 +88,8 @@ class Kernel
                 if(!is_null($paramClass)) {
                     $test = $this->make($paramClass->getName());
                     array_push($arguments, $test);
+                } else{
+                    array_push($arguments, array_pop($simpleArgs));
                 }
 
             }
@@ -94,9 +97,7 @@ class Kernel
         else {
             throw new Exception("Not member this method");
         }
-//        array_push($arguments, array_slice($matches, 1));
-        $arguments += array_slice($matches, 1);
-//        call_user_func_array([$objectController, $action], $arguments);
+        call_user_func_array([$objectController, $action], $arguments);
 
     }
 
@@ -124,6 +125,6 @@ class Kernel
             $createdService = call_user_func($callable);
             return $createdService;
         }
-        return $this->services[$service];
+        return new $this->services[$service];
     }
 }
