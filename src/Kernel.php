@@ -78,27 +78,27 @@ class Kernel
         $objectController = new $controller();
         $simpleArgs = array_reverse(array_slice($matches, 1));
         $arguments = [];
-        $rc = new \ReflectionClass($objectController);
-        if($rc->hasMethod($action)){
-            $rm = $rc->getMethod($action);
-            $params = $rm->getParameters();
-            foreach ($params as $p) {
-                /** ReflectionParameter $p */
-                $paramClass = $p->getClass();
+        $reflectionClass = new \ReflectionClass($objectController);
+
+        if($reflectionClass->hasMethod($action)) {
+            $reflectionMethod = $reflectionClass->getMethod($action);
+            $params = $reflectionMethod->getParameters();
+            foreach ($params as $param) {
+                /** ReflectionParameter $param */
+                $paramClass = $param->getClass();
                 if(!is_null($paramClass)) {
-                    $test = $this->make($paramClass->getName());
-                    array_push($arguments, $test);
-                } else{
+                    $objectParam = $this->make($paramClass->getName());
+                    array_push($arguments, $objectParam);
+                } else {
                     array_push($arguments, array_pop($simpleArgs));
                 }
-
             }
         }
         else {
             throw new Exception("Not member this method");
         }
-        call_user_func_array([$objectController, $action], $arguments);
 
+        call_user_func_array([$objectController, $action], $arguments);
     }
 
     /**
