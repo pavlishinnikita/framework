@@ -76,7 +76,7 @@ class Kernel
         $action = $controllerAndAction[1];
         $controller = $this->prefixControllers . $controller;
         $objectController = new $controller();
-        $simpleArgs = array_slice($matches, 1);
+        $simpleArgs = array_reverse(array_slice($matches, 1));
         $arguments = [];
         $rc = new \ReflectionClass($objectController);
         if($rc->hasMethod($action)){
@@ -97,6 +97,7 @@ class Kernel
         else {
             throw new Exception("Not member this method");
         }
+        var_dump($arguments);
         call_user_func_array([$objectController, $action], $arguments);
 
     }
