@@ -80,21 +80,20 @@ class Kernel
         $arguments = [];
         $reflectionClass = new \ReflectionClass($objectController);
 
-        if($reflectionClass->hasMethod($action)) {
+        if ($reflectionClass->hasMethod($action)) {
             $reflectionMethod = $reflectionClass->getMethod($action);
             $params = $reflectionMethod->getParameters();
             foreach ($params as $param) {
                 /** ReflectionParameter $param */
                 $paramClass = $param->getClass();
-                if(!is_null($paramClass)) {
+                if (!is_null($paramClass)) {
                     $objectParam = $this->make($paramClass->getName());
                     array_push($arguments, $objectParam);
                 } else {
                     array_push($arguments, array_pop($simpleArgs));
                 }
             }
-        }
-        else {
+        } else {
             throw new Exception("Not member this method");
         }
 
