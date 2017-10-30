@@ -62,7 +62,7 @@ class Kernel
      * Принимает запрос и обрабатывет его
      *
      * В этом методе происходит обработка запросов и на их основании создаются нужные контроллеры
-     * и вызыванются нужные действия (actions)
+     * а так же вызываются нужные действия (actions)
      *
      * @param Request $request запрос и его параметры хранятся в этой переменной
      */
@@ -116,6 +116,7 @@ class Kernel
      * @return mixed
      */
     public function make(string $service) {
+
         if (!array_key_exists($service, $this->services)) {
             return new $service;
         }
