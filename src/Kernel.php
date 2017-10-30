@@ -97,7 +97,6 @@ class Kernel
         else {
             throw new Exception("Not member this method");
         }
-        var_dump($arguments);
         call_user_func_array([$objectController, $action], $arguments);
 
     }
